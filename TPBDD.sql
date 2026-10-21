@@ -17,13 +17,14 @@ DROP TABLE IF EXISTS auditoria_zapato_precio;
 
 
 CREATE TABLE vendedor(
-	nro_vendedor INT NOT NULL,
+	dni_vendedor INT NOT NULL,
+	nro_vendedor INT AUTO_INCREMENT NOT NULL,
 	nombre VARCHAR(50) NOT NULL,
 	apellido VARCHAR(50) NOT NULL,
 	direccion VARCHAR(100) NOT NULL,
-	dni_vendedor INT NOT NULL,
-	
-	CONSTRAINT pk_vendedor PRIMARY KEY(nro_vendedor)
+
+	CONSTRAINT pk_vendedor PRIMARY KEY(dni_vendedor),
+	UNIQUE (nro_vendedor)
 );
 
 CREATE TABLE dia(
@@ -31,7 +32,6 @@ CREATE TABLE dia(
 	
 	CONSTRAINT pk_dia PRIMARY KEY(nombre_dia)
 );
-
 
 CREATE TABLE proveedor(
 	cuit BIGINT NOT NULL,
@@ -78,6 +78,8 @@ CREATE TABLE mayorista(
 	dni INT NOT NULL,
 	descuento_general FLOAT NOT NULL,
 	
+	CONSTRAINT check_descuento2 CHECK (descuento_general >= 0 AND descuento_general < 100),
+	
 	CONSTRAINT fk_cliente FOREIGN KEY(dni) REFERENCES cliente(dni)
 	ON DELETE CASCADE
 	ON UPDATE CASCADE
@@ -92,18 +94,16 @@ CREATE TABLE minorista(
 	ON UPDATE CASCADE
 );
 
-
-
 CREATE TABLE venta(
 	nro_factura INT NOT NULL,
 	monto FLOAT NOT NULL,
 	fecha DATE NOT NULL,
 	dni INT NOT NULL,
-	nro_vendedor INT NOT NULL,
+	dni_vendedor INT NOT NULL,
 	porcentaje_descuento FLOAT NOT NULL,
 	
 	CONSTRAINT pk_venta PRIMARY KEY(nro_factura),
-	CONSTRAINT fk_vendedor FOREIGN KEY (nro_vendedor) REFERENCES vendedor(nro_vendedor) 
+	CONSTRAINT fk_vendedor FOREIGN KEY (dni_vendedor) REFERENCES vendedor(dni_vendedor) 
 	ON DELETE CASCADE
 	ON UPDATE CASCADE,
 	
@@ -118,10 +118,10 @@ CREATE TABLE franco(
 	nro_franco INT NOT NULL,
 	observaciones VARCHAR(100) NOT NULL,
 	fecha DATE NOT NULL,
-	nro_vendedor INT NOT NULL, 
+	dni_vendedor INT NOT NULL, 
 
 	CONSTRAINT pk_franco PRIMARY KEY(nro_franco),
-	CONSTRAINT fk_vendedor_franco FOREIGN KEY (nro_vendedor) REFERENCES vendedor(nro_vendedor)
+	CONSTRAINT fk_vendedor_franco FOREIGN KEY (dni_vendedor) REFERENCES vendedor(dni_vendedor)
 	ON DELETE CASCADE
 	ON UPDATE CASCADE
 	
@@ -187,14 +187,14 @@ CREATE TABLE contiene(
 );
 
 CREATE TABLE asiste(
-	nro_vendedor INT NOT NULL,
+	dni_vendedor INT NOT NULL,
 	nombre_dia VARCHAR(100) NOT NULL,
 	hora_entrada TIME NOT NULL,
 	hora_salida TIME NOT NULL,
 	
-	CONSTRAINT pk_asiste PRIMARY KEY (nro_vendedor, nombre_dia),
+	CONSTRAINT pk_asiste PRIMARY KEY (dni_vendedor, nombre_dia),
 	
-	CONSTRAINT fk_vendedor_asiste FOREIGN KEY (nro_vendedor) REFERENCES vendedor(nro_vendedor) 
+	CONSTRAINT fk_vendedor_asiste FOREIGN KEY (dni_vendedor) REFERENCES vendedor(dni_vendedor) 
 	ON DELETE CASCADE
 	ON UPDATE CASCADE,
 	
@@ -229,12 +229,12 @@ CREATE TABLE auditoria_zapato_precio(
 
 USE TPBDD;
 
-INSERT INTO vendedor (nro_vendedor, nombre, apellido, direccion, dni_vendedor) VALUES
-    (1, 'Carlos', 'Gomez', 'Av. San Martin 450', 32456789),
-    (2, 'Lucia', 'Fernandez', 'Belgrano 1230', 35678901),
-    (3, 'Martin', 'Sosa', 'Rivadavia 890', 38901234),
-     (4, 'Lucio', 'Fassano', '25 de Mayo 421', 30523124),
-     (5, 'Valentin', 'Tello', 'Constitucion 628', 36102523);
+INSERT INTO vendedor (nombre, apellido, direccion, dni_vendedor) VALUES
+    ('Carlos', 'Gomez', 'Av. San Martin 450', 32456789), -- 1
+    ('Lucia', 'Fernandez', 'Belgrano 1230', 35678901), -- 2
+    ('Martin', 'Sosa', 'Rivadavia 890', 38901234), -- 3
+     ('Lucio', 'Fassano', '25 de Mayo 421', 30523124), -- 4
+     ('Valentin', 'Tello', 'Constitucion 628', 36102523); -- 5
 
 INSERT INTO dia (nombre_dia) VALUES
     ('Lunes'),
@@ -283,17 +283,17 @@ INSERT INTO minorista (dni, fecha_nacimiento) VALUES
     (30124512, '1983-05-14'),
     (40555666, '1997-11-22');
 
-INSERT INTO franco (nro_franco, observaciones, fecha, nro_vendedor) VALUES
-    (1, 'Franco para rendir bases de datos', '2026-10-12', 1),
-    (2, 'Dia de estudio', '2026-10-15', 2);
+INSERT INTO franco (nro_franco, observaciones, fecha, dni_vendedor) VALUES
+    (1, 'Franco para rendir bases de datos', '2026-10-12', 32456789), -- 1
+    (2, 'Dia de estudio', '2026-10-15', 35678901); -- 2
 
-INSERT INTO asiste (nro_vendedor, nombre_dia, hora_entrada, hora_salida) VALUES
-    (1, 'Lunes', '08:30:00', '16:30:00'),
-    (1, 'Martes', '08:30:00', '16:30:00'),
-    (2, 'Miercoles', '12:00:00', '20:00:00'),
-    (2, 'Jueves', '12:00:00', '20:00:00'),
-    (3, 'Viernes', '09:00:00', '17:00:00'),
-    (3, 'Sabado', '09:00:00', '13:00:00');
+INSERT INTO asiste (dni_vendedor, nombre_dia, hora_entrada, hora_salida) VALUES
+    (32456789, 'Lunes', '08:30:00', '16:30:00'), -- 1
+    (32456789, 'Martes', '08:30:00', '16:30:00'), -- 1
+    (35678901, 'Miercoles', '12:00:00', '20:00:00'), -- 2
+    (35678901, 'Jueves', '12:00:00', '20:00:00'), -- 2 
+    (38901234, 'Viernes', '09:00:00', '17:00:00'), -- 3
+    (38901234, 'Sabado', '09:00:00', '13:00:00'); -- 3
 
 INSERT INTO provee (color, modelo, cuit) VALUES
     ('Negro', 'Borcego Urbano', 20112233442),
@@ -310,10 +310,10 @@ INSERT INTO tiene_talle (color, modelo, nro_talle, cantidad, precio) VALUES
     ('Rojo', 'Botines Clasico', 36, 5, 71000.00),
     ('Rojo', 'Botines Clasico', 37, 12, 71250.00);
 
-INSERT INTO venta (nro_factura, monto, fecha, dni, nro_vendedor, porcentaje_descuento) VALUES
-    (1001, 110500.00, '2026-10-18', 48252234, 1, 15.0),
-    (1002, 51300.00, '2026-10-19', 30124512, 2, 5.0),
-    (1003, 131200.00, '2026-10-20', 28189420, 3, 20.0);
+INSERT INTO venta (nro_factura, monto, fecha, dni, dni_vendedor, porcentaje_descuento) VALUES
+    (1001, 110500.00, '2026-10-18', 48252234, 32456789, 15.0), -- 1
+    (1002, 51300.00, '2026-10-19', 30124512, 35678901, 5.0), -- 2
+    (1003, 131200.00, '2026-10-20', 28189420, 38901234, 20.0); -- 3
 
 INSERT INTO contiene (color, modelo, nro_talle, nro_factura, precio_venta, cantidad_venta) VALUES
     ('Negro', 'Borcego Urbano', 40, 1001, 65000.00, 2),
