@@ -1,4 +1,5 @@
 USE tpbdd;
+DROP VIEW  IF EXISTS vendedores_max_ventas;
 #Obtenemos el nro_talle mas vendido por cada modelo de zapato.
 SELECT c1.modelo, c1.nro_talle
 FROM contiene c1
@@ -31,5 +32,22 @@ WHERE nro_vendedor NOT IN (
     FROM franco 
     WHERE fecha BETWEEN '2026-01-01' AND '2026-01-31'
 );
+#Esta consulta utiliza la subconsulta 2) que devuelve los vendedores y sus montos, para seleccionar al vendedor con el monto de ventas mas alto.
+SELECT 
+    *
+FROM vendedores_max_ventas
+WHERE monto_total_2025 = (
+    SELECT MAX(monto_total_2025) 
+    FROM vendedores_max_ventas
+);
 
-SELECT * FROM vendedores_max_ventas
+#Esta consulta nos lista el nombre y appelido de los vendedores que trabajan el dia Lunes
+SELECT v.nombre, v.apellido
+FROM vendedor v
+INNER JOIN asiste a ON v.nro_vendedor = a.nro_vendedor
+WHERE a.nombre_dia = 'Lunes';
+
+#Esta consulta lista los modelos de zapatos junto a su color y talle cuyo precio supere los 100000
+SELECT modelo, color, nro_talle, precio
+FROM tiene_talle
+WHERE precio > 100000;
