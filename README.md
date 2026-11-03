@@ -7,5 +7,3 @@ Los scripts se dividen en dos partes:
 
 # Paso a paso.
 1. Tener todo instalado (Java 26.x.x y MySQL 9.x.x)
-
-2. & 'C:\Users\GoodGame\.vscode\extensions\redhat.java-1.58.0-win32-x64\jre\25.0.4.1-win32-x86_64\bin\java.exe' '@C:\Users\GoodGame\AppData\Local\Temp\cp_8uhblgkk0ril114phd8g44v1k.argfile' 'Main' 
