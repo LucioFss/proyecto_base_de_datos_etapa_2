@@ -138,7 +138,7 @@ public class Main {
                 System.out.println("CUIT: " + cuit + " | Razón Social: " + razonSocial + " | Dir: " + direccion + " | Tel: " + telefono);
             }
 
-            // Liveramos el resultSet.
+            // Liberamos el resultSet.
             resultSet.close();
 
             // Liberamos el statement.
