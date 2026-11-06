@@ -1,8 +1,8 @@
-DROP DATABASE IF EXISTS tpbdd;
+DROP DATABASE IF EXISTS TPBDD;
 CREATE DATABASE TPBDD;
 USE TPBDD;
 
---Primero se hace el borrado de las tablas hijas
+-- Primero se hace el borrado de las tablas hijas
 DROP TABLE IF EXISTS contiene;
 DROP TABLE IF EXISTS provee;
 DROP TABLE IF EXISTS tiene_talle;
@@ -135,7 +135,6 @@ CREATE TABLE franco(
 	
 );
 
-
 CREATE TABLE tiene_talle(
 	color VARCHAR(100) NOT NULL,
 	modelo VARCHAR(100) NOT NULL,
@@ -155,7 +154,14 @@ CREATE TABLE tiene_talle(
 
 	CONSTRAINT check_precio CHECK (precio > 0 AND precio < 200000),
 	CONSTRAINT check_cantidad CHECK (cantidad > 0)
+);
 
+CREATE TABLE auditoria_zapato_precio(
+    id_auditoria INT AUTO_INCREMENT PRIMARY KEY,
+    fecha DATETIME NOT NULL,
+    precio_viejo FLOAT NOT NULL,
+    precio_nuevo FLOAT NOT NULL,
+    usuario VARCHAR(100) NOT NULL
 );
 
 DELIMITER $$
@@ -228,14 +234,6 @@ CREATE TABLE provee(
 	CONSTRAINT fk_proveedor_provee FOREIGN KEY (cuit) REFERENCES proveedor(cuit)
 	ON DELETE CASCADE
 	ON UPDATE CASCADE
-);
-
-CREATE TABLE auditoria_zapato_precio(
-    id_auditoria INT AUTO_INCREMENT PRIMARY KEY,
-    fecha DATETIME NOT NULL,
-    precio_viejo FLOAT NOT NULL,
-    precio_nuevo FLOAT NOT NULL,
-    usuario VARCHAR(100) NOT NULL
 );
 
 USE TPBDD;
