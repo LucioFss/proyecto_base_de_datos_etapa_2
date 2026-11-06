@@ -1,18 +1,26 @@
 DROP DATABASE IF EXISTS tpbdd;
 CREATE DATABASE TPBDD;
 USE TPBDD;
-DROP TABLE IF EXISTS tiene_talle;
+
+--Primero se hace el borrado de las tablas hijas
 DROP TABLE IF EXISTS contiene;
-DROP TABLE IF EXISTS asiste;
 DROP TABLE IF EXISTS provee;
-DROP TABLE IF EXISTS vendedor;
-DROP TABLE IF EXISTS cliente;
-DROP TABLE IF EXISTS dia;
-DROP TABLE IF EXISTS mprovee;
+DROP TABLE IF EXISTS tiene_talle;
+DROP TABLE IF EXISTS asiste;
+DROP TABLE IF EXISTS franco;
+DROP TABLE IF EXISTS venta;
 DROP TABLE IF EXISTS mayorista;
 DROP TABLE IF EXISTS minorista;
-DROP TABLE IF EXISTS venta;
-DROP TABLE IF EXISTS franco;
+DROP TABLE IF EXISTS mproveedor;
+DROP TABLE IF EXISTS minorista;
+
+-- Segundo se hace el borrado de las tablas padre
+DROP TABLE IF EXISTS zapato;
+DROP TABLE IF EXISTS talle;
+DROP TABLE IF EXISTS cliente;
+DROP TABLE IF EXISTS proveedor;
+DROP TABLE IF EXISTS vendedor;
+DROP TABLE IF EXISTS dia;
 DROP TABLE IF EXISTS auditoria_zapato_precio;
 
 
