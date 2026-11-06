@@ -103,7 +103,7 @@ CREATE TABLE venta(
 	porcentaje_descuento FLOAT NOT NULL,
 	
 	CONSTRAINT pk_venta PRIMARY KEY(nro_factura),
-	CONSTRAINT fk_vendedor FOREIGN KEY (nro_vendedor) REFERENCES vendedor(nro_vendedor) 
+	CONSTRAINT fk_vendedor FOREIGN KEY (dni_vendedor) REFERENCES vendedor(dni_vendedor) 
 	ON DELETE RESTRICT
 	ON UPDATE CASCADE,
 	
