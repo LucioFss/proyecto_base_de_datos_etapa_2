@@ -3,7 +3,3 @@ Este repositorio contiene todo el codigo requerido para el funcionamiento de la 
 Los scripts se dividen en dos partes:
 1. Lenguaje de Definicion de Datos (DDL): (nombre de archivo donde se define el DDL) Se requiere para definir toda la estructura de la base de datos, y el llenado con datos de la misma
 2. Lenguaje de Manipulacion de Datos: (nombre de archivo donde se define el DML) Se realizan varias consultas con el fin de probar la base de datos
-
-
-# Paso a paso.
-1. Tener todo instalado (Java 26.x.x y MySQL 9.x.x)
