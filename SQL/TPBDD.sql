@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 DROP DATABASE IF EXISTS TPBDD;
 CREATE DATABASE TPBDD;
 USE TPBDD;
@@ -22,6 +23,22 @@ DROP TABLE IF EXISTS proveedor;
 DROP TABLE IF EXISTS vendedor;
 DROP TABLE IF EXISTS dia;
 DROP TABLE IF EXISTS auditoria_zapato_precio;
+=======
+USE TPBDD;
+DROP TABLE IF EXISTS tiene_talle CASCADE;
+DROP TABLE IF EXISTS contiene CASCADE;
+DROP TABLE IF EXISTS asiste CASCADE;
+DROP TABLE IF EXISTS provee CASCADE;
+DROP TABLE IF EXISTS vendedor CASCADE;
+DROP TABLE IF EXISTS cliente CASCADE;
+DROP TABLE IF EXISTS dia CASCADE;
+DROP TABLE IF EXISTS mprovee CASCADE;
+DROP TABLE IF EXISTS mayorista CASCADE;
+DROP TABLE IF EXISTS minorista CASCADE;
+DROP TABLE IF EXISTS venta CASCADE;
+DROP TABLE IF EXISTS franco CASCADE;
+DROP TABLE IF EXISTS auditoria_zapato_precio CASCADE;
+>>>>>>> 6a39fa1 (Se corrigio el orden de ejecucion de la inicializacion de tablas, errores de sintaxis, y se corrigio la clausula contraint de contiene)
 
 
 CREATE TABLE vendedor(
@@ -164,16 +181,18 @@ CREATE TABLE auditoria_zapato_precio(
     usuario VARCHAR(100) NOT NULL
 );
 
+USE TPBDD;
+
 DELIMITER $$
 
 CREATE TRIGGER trigger_auditoria
-AFTER UPDATE ON tiene_talle 
+AFTER UPDATE ON tiene_talle
 FOR EACH ROW
-BEGIN 
-	IF OLD.precio <> NEW.precio THEN	
-		INSERT INTO auditoria_zapato_precio(fecha, precio_viejo, precio_nuevo, usuario)
-		VALUES(NOW(), OLD.precio, NEW.precio, USER());
-	END IF;
+BEGIN
+    IF OLD.precio <> NEW.precio THEN
+        INSERT INTO auditoria_zapato_precio(fecha, precio_viejo, precio_nuevo, usuario)
+        VALUES(NOW(), OLD.precio, NEW.precio, USER());
+    END IF;
 END$$
 
 DELIMITER ;
