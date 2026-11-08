@@ -12,23 +12,23 @@ WHERE c1.cantidad_venta = (
 #Con esta consulta obtenemos el monto total que tiene asociado cada vendedor en 2025, que en nuestro caso es null pq rellenamos la tabla con valores de venta de 2026.
 CREATE VIEW vendedores_max_ventas AS
 SELECT 
-    v.nro_vendedor,
+    v.dni_vendedor,
     v.nombre,
     v.apellido,
     SUM(ve.monto) AS monto_total_2025
 FROM vendedor v
 LEFT JOIN venta ve 
-    ON v.nro_vendedor = ve.nro_vendedor 
+    ON v.dni_vendedor = ve.dni_vendedor 
     AND YEAR(ve.fecha) = 2025 #Ningun vendedor tuvo ventas en 2025. En nuestros datos insertados, todos los vendedores hicieron sus ventas en 2026, por lo que dara null todos los montos.
-GROUP BY v.nro_vendedor, v.nombre, v.apellido;
+GROUP BY v.dni_vendedor, v.nombre, v.apellido;
 
 #Obtenemos todos los vendedores que no tuvieron NINGUN FRANCO en todo enero
 SELECT 
     apellido, 
     nombre
 FROM vendedor
-WHERE nro_vendedor NOT IN (
-    SELECT nro_vendedor 
+WHERE dni_vendedor NOT IN (
+    SELECT dni_vendedor 
     FROM franco 
     WHERE fecha BETWEEN '2026-01-01' AND '2026-01-31'
 );
@@ -44,7 +44,7 @@ WHERE monto_total_2025 = (
 #Esta consulta nos lista el nombre y appelido de los vendedores que trabajan el dia Lunes
 SELECT v.nombre, v.apellido
 FROM vendedor v
-INNER JOIN asiste a ON v.nro_vendedor = a.nro_vendedor
+INNER JOIN asiste a ON v.dni_vendedor = a.dni_vendedor
 WHERE a.nombre_dia = 'Lunes';
 
 #Esta consulta lista los modelos de zapatos junto a su color y talle cuyo precio supere los 100000
