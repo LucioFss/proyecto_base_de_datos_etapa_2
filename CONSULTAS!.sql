@@ -1,5 +1,6 @@
 USE TPBDD;
 DROP VIEW  IF EXISTS vendedores_max_ventas;
+
 #Obtenemos el nro_talle mas vendido por cada modelo de zapato.
 SELECT c1.modelo, c1.nro_talle
 FROM contiene c1
