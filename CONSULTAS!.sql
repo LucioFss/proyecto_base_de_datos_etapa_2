@@ -22,10 +22,6 @@ LEFT JOIN venta ve
     AND YEAR(ve.fecha) = 2025 #Ningun vendedor tuvo ventas en 2025. En nuestros datos insertados, todos los vendedores hicieron sus ventas en 2026, por lo que dara null todos los montos.
 GROUP BY v.dni_vendedor, v.nombre, v.apellido;
 
-# Imprimimos todos los valores de la vista recién creada
-SELECT * 
-FROM vendedores_max_ventas;
-
 #Obtenemos todos los vendedores que no tuvieron NINGUN FRANCO en todo enero
 SELECT 
     apellido, 
