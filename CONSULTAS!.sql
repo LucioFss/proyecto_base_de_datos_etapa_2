@@ -15,12 +15,14 @@ SELECT
     v.dni_vendedor,
     v.nombre,
     v.apellido,
-    SUM(ve.monto) AS monto_total_2025
+    SUM(ve.monto) AS monto_total_2025 
 FROM vendedor v
 LEFT JOIN venta ve 
     ON v.dni_vendedor = ve.dni_vendedor 
     AND YEAR(ve.fecha) = 2025 #Ningun vendedor tuvo ventas en 2025. En nuestros datos insertados, todos los vendedores hicieron sus ventas en 2026, por lo que dara null todos los montos.
 GROUP BY v.dni_vendedor, v.nombre, v.apellido;
+
+SELECT * FROM vendedores_max_ventas;
 
 #Obtenemos todos los vendedores que no tuvieron NINGUN FRANCO en todo enero
 SELECT 
