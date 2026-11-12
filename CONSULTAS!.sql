@@ -1,7 +1,7 @@
 USE TPBDD;
 DROP VIEW  IF EXISTS vendedores_max_ventas;
 
-#Obtenemos el nro_talle mas vendido por cada modelo de zapato.
+#1- Obtenemos el nro_talle mas vendido por cada modelo de zapato.
 SELECT c1.modelo, c1.nro_talle
 FROM contiene c1
 WHERE c1.cantidad_venta = (
@@ -10,7 +10,7 @@ WHERE c1.cantidad_venta = (
     WHERE c2.modelo = c1.modelo
 );
 
-#Con esta consulta obtenemos el monto total que tiene asociado cada vendedor en 2025, que en nuestro caso es null pq rellenamos la tabla con valores de venta de 2026.
+#2- Con esta consulta obtenemos el monto total que tiene asociado cada vendedor en 2025, que en nuestro caso es null porque rellenamos la tabla con valores de venta de 2026.
 CREATE VIEW vendedores_max_ventas AS
 SELECT 
     v.dni_vendedor,
@@ -25,7 +25,7 @@ GROUP BY v.dni_vendedor, v.nombre, v.apellido;
 
 SELECT * FROM vendedores_max_ventas;
 
-#Obtenemos todos los vendedores que no tuvieron NINGUN FRANCO en todo enero
+#3- Obtenemos todos los vendedores que no tuvieron NINGUN FRANCO en todo enero
 SELECT 
     apellido, 
     nombre
@@ -35,6 +35,7 @@ WHERE dni_vendedor NOT IN (
     FROM franco 
     WHERE fecha BETWEEN '2026-01-01' AND '2026-01-31'
 );
+
 #Esta consulta utiliza la subconsulta 2) que devuelve los vendedores y sus montos, para seleccionar al vendedor con el monto de ventas mas alto.
 SELECT 
     *
